@@ -173,7 +173,7 @@ java -jar "D:\Java\Jenkins.war" --httpPort=8888
 程序或脚本中填写
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
 添加参数中填写
-C:\Users\your PC\Desktop\JenkinsStar.ps1
+C:\Users\your PC\Desktop\JenkinsAutoStar.ps1
 ```
 ![img](../images/jtw7.png)
 
