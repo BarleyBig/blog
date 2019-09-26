@@ -20,7 +20,7 @@
 
 下面我们就来讲解如何在Jenkins里集成多分支Taro小程序项目
 
-在继承部署中需要微信开发者工具，目前微信开发者工具只有 macOS 和 Windows 两种版本,上文的大佬用的是 macOS 系统，本文采用 windows 系统进行部署
+在继承部署中需要微信开发者工具，目前微信开发者工具只有 macOS 和 Windows 两种版本,上文的大佬用的是 macOS 系统，本文采用 Windows 系统进行部署
 
 下面讲解下具体步骤
 
@@ -89,7 +89,7 @@ pipeline {
           //  在这里也可以设置一些条件，例如分支名称过滤等
           when { branch 'dev*' }
           steps {
-            // windows下使用bat启动脚本，linux或manOS下使用sh启动脚本
+            // Windows下使用bat启动脚本，linux或manOS下使用sh启动脚本
             bat 'powershell ./deploy.ps1'
           }
         }
@@ -149,7 +149,7 @@ Write-Output "关闭当前项目"
 
 - #### 设置Jenkins开机自启动
 
-windows10的自动更新已经饱受诟病多时了。windows10强制要求每35天系统至少更新并重启一遍，每次重启我们还需要手动开启Jenkins也是一件很麻烦的事。因此我们给它配置一个开机自启动。
+Windows10的自动更新已经饱受诟病多时了。Windows10强制要求每35天系统至少更新并重启一遍，每次重启我们还需要手动开启Jenkins也是一件很麻烦的事。因此我们给它配置一个开机自启动。
 
 首先创建一个Jenkins的启动脚本 `JenkinsAutoStar.ps1`
 ```PowerShell
