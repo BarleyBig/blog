@@ -1,3 +1,5 @@
+# jenkins 集成多分支taro微信小程序
+
 微信开发者工具中虽然集成了预览、上传功能，但是在微信小程序的管理后台，每个开发者上传的版本都是独立的。
 
 如果是多人协作开发，其中一个开发者在修复了 BUG，或者新增了功能，想要上传体验版给测试时，还要登陆后台重新设置体验版，然后再把体验版的二维码发给测试。  
@@ -36,7 +38,7 @@ java -jar jenkins.war --httpPort=8888
 
 - #### 配置任务
 
-  ##### 1、配置源码及分支
+##### 1、配置源码及分支
 
 ![img](../images/jtw2.png)
 
@@ -44,7 +46,7 @@ java -jar jenkins.war --httpPort=8888
 
 在Behaviours中，我们可以通过新增`Filter by name`的配置项来筛选分支，例如我们现在只希望自动部署以dev开头的分支，那么就填写`dev*`。
 
-  ##### 2、配置触发器
+##### 2、配置触发器
 
 ![img](../images/jtw3.png)
 
@@ -138,3 +140,50 @@ Write-Output "关闭当前项目"
 
 > 在这里我遇到了一个微信开发者工具的BUG，由于是多分支模式，每个分支必然会长的比较像。也可能存在某些页面或文件在分支A中存在，分支B中不存在。这时候假如分支A上传成功，我们又触发了分支B的自动部署，命令行模式下的微信开发者工具会报错说找不到分支A的某些文件。GUI手动模式下则没有问题。解决办法是将微信开发者工具完全关闭再重新打开。
 
+- #### 设置jenkins开机自启动
+
+windows10的自动更新已经饱受诟病多时了。windows10强制要求每35天系统至少更新并重启一遍，每次重启我们还需要手动开启jenkins也是一件很麻烦的事。因此我们给它配置一个开机自启动。
+
+首先创建一个jenkins的启动脚本 `jenkinsAutoStar.ps1`
+```PowerShell
+java -jar "D:\Java\jenkins.war" --httpPort=8888
+```
+  
+##### 1、打开计划任务，创建一个新的基本任务
+
+![img](../images/jtw4.png)
+
+##### 2、在触发器中选择 `计算机启动时`
+
+![img](../images/jtw5.png)
+
+##### 3、在操作中选择 `启动程序`
+
+![img](../images/jtw6.png)
+
+##### 4、填写启动程序配置
+```
+程序或脚本中填写
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+添加参数中填写
+C:\Users\your PC\Desktop\jenkinsStar.ps1
+```
+![img](../images/jtw7.png)
+
+##### 5、勾选 `单击万成时打开此任务属性对话框` 并点击完成
+
+![img](../images/jtw8.png)
+
+##### 6、配置权限
+
+用户账户使用 `Administrator`  
+勾选 `使用最高权限运行`  
+点击确定
+
+![img](../images/jtw9.png)
+
+现在我们已经成功部署了jenkins的开机启动
+
+
+
+以上就是jenkins集成多分支taro小程序的全部内容，作者水平有限，如有不清楚的地方或者错误欢迎大家批评指正～
