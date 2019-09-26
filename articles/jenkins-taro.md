@@ -20,7 +20,7 @@
 
 下面我们就来讲解如何在Jenkins里集成多分支Taro小程序项目
 
-在继承部署中需要微信开发者工具，目前微信开发者工具只有 macOS 和 Windows 两种版本,上文的大佬用的是 macOS 系统，本文采用 Windows 系统进行部署
+在集成部署中需要微信开发者工具，目前微信开发者工具只有 macOS 和 Windows 两种版本,上文的大佬用的是 macOS 系统，本文采用 Windows 系统进行部署，使用的是PowerShell，希望能对 Windows 系统的小伙伴们提供一些帮助。
 
 下面讲解下具体步骤
 
@@ -28,7 +28,7 @@
 这个步骤和上文大佬的文章是一样的
 
 Jenkins 依赖 java1.8，需要首先在我们的服务器上安装 java1.8 版本。之后 [直接下载最新的稳定 Jenkins WAR 包](http://mirrors.Jenkins.io/war-stable/latest/Jenkins.war)，
-然后**以管理员身份运行 powershell**，并执行以下命令启动 Jenkins
+然后**以管理员身份运行 PowerShell**，并执行以下命令启动 Jenkins
 
 ```shell
 java -jar Jenkins.war --httpPort=8888
@@ -36,7 +36,7 @@ java -jar Jenkins.war --httpPort=8888
 
 其中，`--httpPort=8888` 为设置服务端口号，默认端口号为 8080 。
 
-> 注意执行时 powershell 所在的文件夹地址要对
+> 注意执行时 PowerShell 所在的文件夹地址要对
 
 - #### 新建多分支流水线任务
 这里与上面大佬的文章就有区别了。  
