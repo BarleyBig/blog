@@ -1,4 +1,4 @@
-Typescript经过这么多年的发展，已经打败了所有的对手，成为了事实上的类型Javascript标准，被大量公司所采用，但还是有很多人在问，我们为什么要用ts？这次我就来用一些例子讲解一下使用ts可以给我们带来哪些收益。
+Typescript经过这么多年的发展，已经打败了所有的竞争对手，成为了事实上的类型Javascript标准，被大量公司所采用，但还是经常有人问我，我们为什么要用ts？使用ts能给我们带来什么好处？这次我就来用一些例子讲解一下使用ts给我们的收益。
 
 
 ### **1. 提供很好的的拼写检查和智能提示**
@@ -11,7 +11,7 @@ const user = {
     name: '狗子'
   }
 }
-user.name.spit('')
+user.name.spit('·')
 ```
 我想将user的名字切割成first name和last name，  
 本来需要使用split方法，不小心拼成了 spit。  
@@ -59,7 +59,7 @@ console.log('他的工作是',user.occupcation)// 属性“occupcation”在类�
 当你使用ts的编译功能，或者的安装了ts相关的lint，很容易就可以得到上面那样的提示。帮助我们在开发阶段就排查出相应的错误。   
 
 **同时，我们还可以用ts给变量或参数限定类型，用来规避js默认的隐式转换带来的一些困扰。**   
-可能大家见过一些类似下面这种js的面试题
+可能大家见过一些类似下面这种js的面试题：
 ```javascript
 "" == 0;
 [] == 0;
@@ -132,7 +132,7 @@ const num:any = '10'
 incTen(num) //'1010'
 ```
 ### **2. 方便快捷的代码重构**
-**在js中，即使是一个简单的属性rename，也有可能需要高昂的成本。**  
+在刚刚的例子中讲到了，**在js中，即使是一个简单的属性rename，也有可能需要高昂的成本。**  
 举个简单的例子   
 ```javascript
 // a.js
@@ -239,14 +239,31 @@ callName(user)
 ```
 使用vscode的重命名功能 `F2`，  输入新名称并回车。rename结束。     
 
+### **3. 明确定义函数重载**
 
-## 3. 函数式方法重载带来的困扰
+axios是目前大家常用的前端HTTP库，它提供了多种请求方式
+```javascript
+  const url='http://www.baidu.com'
+  // 1
+  axios.get(url)
+  // 2
+  axios.request({
+    url,
+    method:'get'
+  })
+}
+```
+我现在有个疑问，如果我请求时这样操作，会生成什么呢？
+```javascript
+  const url='http://www.baidu.com'
+  // 1
+  axios.get(url,{
+    url:'http://www.google.com',
+    method:'post'
+  })
+}
+```
 
-jquery作为前端大家应该都有了解，可能还用过
-$.ajax()，是一个经典的ajax request方法  
-内部提供了大量的方法重载方式 你可以使用相当多的参数重载方式来使用这个函数  
-由于js不支持函数签名方式的重载，因此我们一般采用判断参数数量和参数类型的方式来支持函数重载  
-在使用这种方法时，如果没有仔细查看文档，或者不小心写错了位置，就有可能产生意料之外的错误  
 ```javascript
 function logPeople() {
   if (typeof arguments[0] == 'object') {
