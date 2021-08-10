@@ -239,7 +239,7 @@ callName(user)
 ```
 使用vscode的重命名功能 `F2`，  输入新名称并回车。rename结束。     
 
-### **3. 明确定义函数重载**
+### **3. 明确定义函数的参数类型和函数重载**
 
 axios是目前大家常用的前端HTTP库，它提供了多种请求方式
 ```javascript
@@ -253,7 +253,7 @@ axios是目前大家常用的前端HTTP库，它提供了多种请求方式
   })
 }
 ```
-我现在有个疑问，如果我请求时这样操作，会生成什么呢？
+如果我请求时这样操作，具体会发送什么请求呢？
 ```javascript
   const url='http://www.baidu.com'
   // 1
@@ -261,9 +261,35 @@ axios是目前大家常用的前端HTTP库，它提供了多种请求方式
     url:'http://www.google.com',
     method:'post'
   })
+  // 结果是什么呢？自己去试一试吧
 }
 ```
-
+这种情况只能看作者对方法定义，是方法定义描述优先级更高，还是用户的参数描述优先级更高，不同的作者可能会有不同的定义。
+但是在ts中我们可以使用参数定义来规避这种情况的发生。
+```typescript
+type AxiosRequestConfig = {
+  url: string;
+  method: Method;
+  headers?: any;
+  params?: any;
+  data?: any;
+}
+function request(config:AxiosRequestConfig){
+  //do request
+}
+type AxiosGetConfig = {
+  headers?: any;
+  params?: any;
+  data?: any;
+}
+function get(url:string,config:AxiosGetConfig){
+  // do get
+}
+// 也可以借用ts高级一些的特性减少重复定义
+function get(url:string,config:Omit<AxiosRequestConfig,'url'|'method'>){
+  // do get
+}
+```
 ```javascript
 function logPeople() {
   if (typeof arguments[0] == 'object') {
