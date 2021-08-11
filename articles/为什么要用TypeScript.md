@@ -56,7 +56,7 @@ user.name.spit('·')//  属性“spit”在类型“string”上不存在。你�
 
 console.log('他的工作是',user.occupcation)// 属性“occupcation”在类型“IUser”上不存在。你是否指的是“occupation”?
 ```
-当你使用ts的编译功能，或者的安装了ts相关的lint，很容易就可以得到上面那样的提示。帮助我们在开发阶段就排查出相应的错误。   
+当你使用ts的编译功能，或者的安装了ts相关的lint，很容易就可以得到上面那样的提示。**帮助我们在开发阶段就排查出相应的错误。**   
 
 **同时，我们还可以用ts给变量或参数限定类型，用来规避js默认的隐式转换带来的一些困扰。**   
 可能大家见过一些类似下面这种js的面试题：
@@ -83,9 +83,9 @@ js有一个比较复杂的隐式转换规则，具体可以参考这篇总结 [�
 [] == ![1,2,3];//true
 [0]==![0]//true
 ```
-建议大家在生产环境中尽量不要使用这些复杂的转换特性，防止写错或记错造成bug。  
+**建议大家在生产环境中尽量不要使用这些复杂的转换特性，防止写错或记错造成bug。**  
 比较判断尽量写的含义清晰一些，比如 ` [].length==0 ` 或者` ![].length `这样，简洁易懂。  
-或者在书写中使用三等号 ` [].length===0 ` ,三等号会首先验证等号两侧的类型，类型不同会直接返回false。
+或者在**书写中使用三等号** ` [].length===0 ` ,三等号会首先验证等号两侧的类型，类型不同会直接返回false。
 
 隐式转换在代码中也会造成一些隐患:  
 ```javascript
@@ -110,7 +110,7 @@ function incTen(n) {
   return n
 }
 ```
-编写类型判断语句会耗费时间不说，即使增加了检查代码，也并不能在第一时间发现调用错误，必须在运行的时候才能发现问题。**因此我们可以使用ts来给变量或参数限定类型，第一时间提示参数类型的错误：** 
+编写类型判断语句会耗费时间不说，即使增加了检查代码，也并不能在第一时间发现调用错误，必须在运行的时候才能发现问题。因此我们可以**使用ts来给变量或参数限定类型，第一时间提示参数类型的错误**： 
 
 ```typescript
 function incTen(n: number) {
@@ -123,7 +123,7 @@ function incTen(n: number) {
 incTen('10')// error：类型“"10"”的参数不能赋给类型“number”的参数。
 ```
 
-ts给我们提供了非常好用的智能提示，同时也可以将很大一部分错误在编写或者编译阶段就提示出来，让我们加以修改。  
+ts给我们提供了非常好用的智能提示，同时也可以将很大一部分错误在`编写或者编译阶段`就提示出来，让我们加以修改。  
 
     注意！当你将变量的类型设置为any的时候，会绕过类型检查。所以我们要谨慎使用any类型，防止typescript变成"anyscript"
 ```typescript
@@ -237,11 +237,11 @@ function callName(user:IUser) {
 
 callName(user)
 ```
-使用vscode的重命名功能 `F2`，  输入新名称并回车。rename结束。     
+`使用vscode的重命名功能 F2`，  输入新名称并回车。rename结束。     
 
 ### **3. 明确定义函数的参数类型和函数重载**
 
-axios是目前大家常用的前端HTTP库，它提供了多种请求方式
+`axios`是目前大家常用的前端HTTP库，它提供了多种请求方式
 ```javascript
   const url='http://www.baidu.com'
   // 1
@@ -264,8 +264,8 @@ axios是目前大家常用的前端HTTP库，它提供了多种请求方式
   // 结果是什么呢？自己去试一试吧
 }
 ```
-当我们没有按照作者的意愿来传递参数时，方法会发生什么，只能依赖作者对方法的定义认知，是方法描述优先，还是用户传递的参数描述优先。不同的作者在不同的场景下可能都会有不同的定义。
-但是在ts中我们可以定义详细的参数类型来避免这种情况的发生。
+当我们没有按照作者的意愿来传递参数时，方法会发生什么，只能依赖作者对方法的定义认知，是方法描述优先，还是用户传递的参数描述优先。`不同的作者在不同的场景下可能都会有不同的定义`。   
+但是**在ts中我们可以定义详细的参数类型**来避免这种情况的发生。
 ```typescript
 type AxiosRequestConfig = {
   url: string;
@@ -290,8 +290,9 @@ function get(url:string,config:Omit<AxiosRequestConfig,'url'|'method'>){
   // do get
 }
 ```
-很多js的库都像上面这样，提供多种函数的调用方式，或者在一个方法中提供多种函数重载
+很多js的库都提供像上面这样的多种调用方式，或者在一个方法中提供多种函数重载，除了像上面的例子一样偶尔会让人产生疑惑之外，也有可能因为手误而产生错误的传参。
 ```javascript
+// 例:
 function logPeople() {
   if (typeof arguments[0] == 'object') {
     console.log('name', arguments[0].name)
@@ -314,9 +315,10 @@ logPeople('赵四',18)//print name 赵四 age 18
 如果理解错了用法。就会产生问题 
 ```javascript
 logPeople({name:'赵四'},18)//print name { name: '赵四' } age 18
+logPeople('赵四',{age:18})//print name 赵四 age {age:18}
 ```
 这样的问题还算是比较容易发现的，在运行时就可以发现  
-但是一些比较有责任心的作者为了方便调用者，会对提供一些默认参数，当你没有传递部分参数时他会使用默认参数来代替  
+但是一些比较有责任心的作者为了方便调用者，会对参数提供一些默认值。
 ```javascript
 function logPeople() {
   if (typeof arguments[0] == 'object') {
@@ -329,22 +331,19 @@ function logPeople() {
     console.log('adulted', p.adulted)
   }
   else {
-    console.log(2)
     console.log('name', arguments[0])
     console.log('age', arguments[1])
     console.log('adulted', arguments[2].adulted||true)
   }
 }
 ```
-以上方法提供了一个默认值，是否已经成年，默认为true  
-如果你写错了也可以正常运行,输出也是正常，只有遇到一些特殊情况时，才会产生错误  
-如果我们在测试时的用例覆盖范围不够全面，会导致这种错误更难以发现，以至于会在生产环境中发生不可预知的错误  
+上述方法提供了一个默认值，是否已经成年，默认为true。 
+这就使得方法写错了也可以正常运行,输出也是正常，只有遇到一些特殊情况或边界值时，才会产生错误。  
+如果我们的测试用例覆盖范围不够全面，会使得这种错误难以发现，导致在生产环境中发生一些不可预知的错误。  
 ```javascript
 logPeople({name:'赵四',age:18},true)
 ```  
-
-## 7 明确定义函数重载
-
+在ts中，提供了**定义函数重载的方法**，可以协助我们规避这种错误。
 ```typescript
 function logPeople(people: { name: string, age: number, adulted?: boolean }): void;
 function logPeople(name: string, age: number, adulted?: boolean): void;
@@ -362,7 +361,7 @@ function logPeople(): void {
     console.log(2)
     console.log('name', arguments[0])
     console.log('age', arguments[1])
-    console.log('adulted', arguments[2].adulted || true)
+    console.log('adulted', arguments[2].adulted ?? true)
   }
 }
 
@@ -371,7 +370,12 @@ logPeople({
   age: 18,
 })
 ```
+### **3. ts与c#、java都很像**
+这个理由看起来比较扯，但其实这是一个极大的优势。   
+ts的领导人是一位顶级大佬，安德斯海尔斯伯格，微软的c#就是这位大佬领导设计的，而c#的语法又是从java而来的，因此ts与c#、java用起来都很像，这就方便了java和c#程序员使用ts参与到项目的开发中。   
+例如c#，，在游戏领域unity3D目前是市面上占有率最高的游戏引擎，而unity3D使用c#作为主要语言。    
+随着web端3D渲染的日益成熟，大量的相关从业人员加入到web端3D渲染的开发中，使用ts可以有效减少他们重新学习一门新语言的负担。比如白鹭引擎就使用了ts作为默认开发语言。开发者可以像写c#一样来使用ts。几乎不需要额外的学习成本。
 
-### **ts与c#、java都很像**
-    ts的领导人是一位顶级大佬，安德斯海尔斯伯格，微软的c#就是这位大佬领导设计的，而c#的语法又是从java而来的，因此ts与c#、java用起来都很像，这就方便了java和c#程序员使用ts参与到项目的开发中。
-    尤其是c#，例如，在游戏领域unity3D已是占有率最高的游戏引擎，而unity3D使用c#作为主要语言。随着web端渲染的日益成熟，大量的相关从业人员加入到web端3D渲染的开发中，使用ts可以减少他们重新学习的负担。比如白鹭引擎就使用了ts作为默认开发语言。
+
+
+以上就是这次总结的使用ts能带来的收益。
