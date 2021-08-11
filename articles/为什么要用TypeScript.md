@@ -253,7 +253,7 @@ axios是目前大家常用的前端HTTP库，它提供了多种请求方式
   })
 }
 ```
-如果我请求时这样操作，具体会发送什么请求呢？
+如果我请求时这样操作，会发送什么请求呢？
 ```javascript
   const url='http://www.baidu.com'
   // 1
@@ -264,8 +264,8 @@ axios是目前大家常用的前端HTTP库，它提供了多种请求方式
   // 结果是什么呢？自己去试一试吧
 }
 ```
-这种情况只能看作者对方法定义，是方法定义描述优先级更高，还是用户的参数描述优先级更高，不同的作者可能会有不同的定义。
-但是在ts中我们可以使用参数定义来规避这种情况的发生。
+这种情况只能看作者对方法的定义，是方法描述优先？还是用户传入的参数描述优先？不同的作者可能会有不同的定义。
+但是在ts中我们可以定义详细的参数类型来规避这种情况的发生。
 ```typescript
 type AxiosRequestConfig = {
   url: string;
@@ -290,6 +290,7 @@ function get(url:string,config:Omit<AxiosRequestConfig,'url'|'method'>){
   // do get
 }
 ```
+很多js的库都像上面这样，提供多种函数的调用方式，或者在一个方法中提供多种函数重载
 ```javascript
 function logPeople() {
   if (typeof arguments[0] == 'object') {
